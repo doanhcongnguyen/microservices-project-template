@@ -1,0 +1,108 @@
+version: "3.8"
+services:
+  eureka:
+    image: eureka:1.0
+    restart: always
+    ports:
+      - "6789:6789"
+  zuul:
+    image: zuul:1.0
+    restart: always
+    depends_on:
+      - eureka
+    ports:
+      - "8888:8888"
+  aa-server:
+    image: aa-server:1.0
+    restart: always
+    depends_on:
+      - eureka
+      - zuul
+      - db
+    ports:
+      - "9989:9989"
+  device-manager:
+    image: device-manager:1.0
+    restart: always
+    depends_on:
+      - eureka
+      - zuul
+      - db
+      - rabbitmq
+    environment:
+      - SPRING_RABBITMQ_HOST=rabbitmq
+    ports:
+      - "9111:9111"
+  tr069-device-service:
+    image: tr069-device-service:1.0
+    restart: always
+    depends_on:
+      - eureka
+      - zuul
+      - db
+      - rabbitmq
+    environment:
+      - SPRING_RABBITMQ_HOST=rabbitmq
+    ports:
+      - "8555:8555"
+  notification-service:
+    image: notification-service:1.0
+    restart: always
+    depends_on:
+      - eureka
+      - zuul
+      - db
+      - rabbitmq
+    environment:
+      - SPRING_RABBITMQ_HOST=rabbitmq
+    ports:
+      - "8222:8222"
+  frontend:
+    image: frontend:1.0
+    environment:
+      NODE_ENV: production
+    ports:
+      - "80:80"
+  rabbitmq:
+    image: "rabbitmq:3.8.9-management-alpine"
+    restart: always
+    ports:
+      - 5672:5672
+      - 15672:15672
+    environment: 
+      - RABBITMQ_DEFAULT_USER=admin
+      - RABBITMQ_DEFAULT_PASS=admin
+      - RABBITMQ_NODENAME=rabbitnode@localhost
+      - RABBITMQ_USER=admin2
+      - RABBITMQ_PASSWORD=admin2
+  db:
+    image: mysql:5.7
+    command: --default-authentication-plugin=mysql_native_password
+    volumes:
+      - db_init:/docker-entrypoint-initdb.d
+      - db_data:/var/lib/mysql
+    restart: always
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_USER: admin
+      MYSQL_PASSWORD: admin
+  adminer:
+    image: adminer:4.7
+    restart: always
+    ports:
+      - "9000:8080"
+volumes:
+  db_data:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: ./docker/db/data
+  db_init:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: ./docker/db/init

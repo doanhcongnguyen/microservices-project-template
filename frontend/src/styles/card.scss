@@ -1,0 +1,68 @@
+@import './variables.scss';
+
+.card {
+  display: inline-block;
+  width: 100%;
+  position: relative;
+  background: #fff;
+  border: .07143rem solid #d9d9d9;
+  border-radius: .14286rem;
+  margin-bottom: 18px;
+}
+.el-card__header {
+  padding: 18px 20px;
+  border-bottom: 0px solid #ebeef5;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+}
+.el-card__body {
+  padding: 10px 10px;
+}
+.card-header__title {
+  display: block;
+  float: left;
+  vertical-align: top;
+  font-size: 1rem;
+  font-weight: 700;
+  color: #4c4c4c;
+  text-transform: uppercase;
+  margin: 0;
+  white-space: nowrap;
+}
+
+
+.card-stats__item {
+  display: table;
+  width: 100%;
+  table-layout: fixed;
+}
+.card-stats__text__label {
+  font-size: .85714rem;
+  line-height: 1.25;
+  color: #a8a8a8;
+}
+.card-stats__icon {
+  display: table-cell;
+  width: 3.35714rem;
+  vertical-align: top;
+  color: #57707e;
+  font-size: 2rem;
+  padding-left: .35714rem;
+  padding-right: 1rem;
+  padding-top: .71429rem;
+}
+.warning {
+  color: #f29400!important;
+}
+.primary {
+  color: #00a0df!important;
+}
+.danger {
+  color: #ff6363!important;
+}
+.success {
+  color: #4caf50!important;
+}
+.traffic-chart__info__value--upload {
+  color: #6b18b3;
+}

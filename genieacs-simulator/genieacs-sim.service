@@ -1,0 +1,10 @@
+[Unit]
+Description=GenieACS Simulator
+After=network.target
+
+[Service]
+WorkingDirectory=/home/fnf/genieacs-sim
+ExecStart=/home/fnf/genieacs-sim/run.sh
+
+[Install]
+WantedBy=default.target
